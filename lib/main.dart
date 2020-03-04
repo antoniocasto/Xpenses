@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter App',
+      title: 'Xpenses',
+      theme: ThemeData(
+        //gestione del tema globale dell'app
+        primarySwatch: Colors
+            .purple, //oltre al colore genera le relative ombre per i widget a dispetto del primaryColor
+        accentColor: Colors.amber,
+      ),
       home: MyHomePage(),
     );
   }
@@ -46,7 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return GestureDetector(onTap: () {},child: NewTransaction(_addNewTransaction), behavior: HitTestBehavior.opaque,);
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
       },
     );
   }
@@ -55,11 +65,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Xpenses'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () =>  _startAddNewTransaction(context),
+            onPressed: () => _startAddNewTransaction(context),
           )
         ],
       ),

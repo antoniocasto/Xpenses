@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  // String titleInput;
-  // String amountInput;
-  final titleController =
-      TextEditingController(); //to use controllers is better. They've lots of properties
-  final amountController = TextEditingController();
+class NewTransaction extends StatefulWidget {
+
   final Function addTx;
 
   NewTransaction(this.addTx);
+
+  @override
+  _NewTransactionState createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   void submitData(String val) {
     final enteredTitle = titleController.text;
@@ -17,7 +21,8 @@ class NewTransaction extends StatelessWidget {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-    addTx(titleController.text, double.parse(amountController.text));
+    widget.addTx(titleController.text, double.parse(amountController.text)); //widget. per accedere dalla classe state alla classe legata stateful. Me ne da gli attributi
+    Navigator.of(context).pop(); //per chiudere il bottomsheet dopo il salvataggio della transazione
   }
 
   @override
@@ -42,8 +47,8 @@ class NewTransaction extends StatelessWidget {
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              onSubmitted: (_) =>
-                  submitData(_), //necessario passare nuovo valore altrimenti Dart si arrabbia. Il _ indica che non usero' il valore => convenzione
+              onSubmitted: (_) => submitData(
+                  _), //necessario passare nuovo valore altrimenti Dart si arrabbia. Il _ indica che non usero' il valore => convenzione
               //onChanged: (value) => amountInput = value,
             ),
             FlatButton(
