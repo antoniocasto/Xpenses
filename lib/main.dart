@@ -17,9 +17,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
+        textTheme: Theme.of(context).textTheme.copyWith(
               title: TextStyle(
-                fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
