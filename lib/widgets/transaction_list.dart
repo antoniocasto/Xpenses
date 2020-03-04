@@ -10,7 +10,7 @@ class TransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
+      height: 200,
       child: ListView.builder(
         itemCount: transactions.length, //quanti item
         //costruttore dell'item con context e indice dell'item
@@ -30,7 +30,7 @@ class TransactionList extends StatelessWidget {
                   )),
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    '€${transactions[index].amount}',
+                    '€${transactions[index].amount.toStringAsFixed(2)}',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
