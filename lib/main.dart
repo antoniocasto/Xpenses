@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
         //gestione del tema globale dell'app
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
+        errorColor: Colors.red,
         fontFamily: 'Quicksand',
         textTheme: Theme.of(context).textTheme.copyWith(
               title: TextStyle(
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               button: TextStyle(
-                color: Colors.white, 
+                color: Colors.white,
               )),
         ),
       ),
@@ -64,12 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime chosenDate) {
     final newTx = Transaction(
-        id: DateTime.now().toString(),
-        title: title,
-        amount: amount,
-        date: DateTime.now());
+      id: DateTime.now().toString(),
+      title: title,
+      amount: amount,
+      date: chosenDate,
+    );
 
     setState(() {
       _userTransactions.add(newTx);
@@ -88,6 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  void _deleteTransaction(String id){
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -109,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Chart(_recentTransactions),
-          TransactionList(_userTransactions),
+          TransactionList(_userTransactions, _deleteTransaction),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

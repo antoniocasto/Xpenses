@@ -16,16 +16,18 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData(String val) {
+    if (_amountController.text.isEmpty) {
+      return;
+    }
+
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
       return;
     }
-    widget.addTx(
-        _titleController.text,
-        double.parse(_amountController
-            .text)); //widget. per accedere dalla classe state alla classe legata stateful. Me ne da gli attributi
+    widget.addTx(enteredTitle, enteredAmount, _selectedDate);
+
     Navigator.of(context)
         .pop(); //per chiudere il bottomsheet dopo il salvataggio della transazione
   }
