@@ -46,7 +46,7 @@ class TransactionList extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.all(6.0),
                         child: FittedBox(
-                          child: Text('€${transactions[index].amount}'),
+                          child: Text('€${transactions[index].amount.toStringAsFixed(2)}'),
                         ),
                       ),
                     ),

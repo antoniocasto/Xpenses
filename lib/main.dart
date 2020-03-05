@@ -25,12 +25,14 @@ class MyApp extends StatelessWidget {
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                title: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
+              button: TextStyle(
+                color: Colors.white, 
+              )),
         ),
       ),
       home: MyHomePage(),
@@ -52,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   List<Transaction> get _recentTransactions {
-    return _userTransactions.where((tx) { //genera un Iterable -> trasformare dopo in list
+    return _userTransactions.where((tx) {
+      //genera un Iterable -> trasformare dopo in list
       return tx.date.isAfter(
         DateTime.now().subtract(
           Duration(days: 7),

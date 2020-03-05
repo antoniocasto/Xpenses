@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NewTransaction extends StatefulWidget {
-
   final Function addTx;
 
   NewTransaction(this.addTx);
@@ -21,8 +20,12 @@ class _NewTransactionState extends State<NewTransaction> {
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
-    widget.addTx(titleController.text, double.parse(amountController.text)); //widget. per accedere dalla classe state alla classe legata stateful. Me ne da gli attributi
-    Navigator.of(context).pop(); //per chiudere il bottomsheet dopo il salvataggio della transazione
+    widget.addTx(
+        titleController.text,
+        double.parse(amountController
+            .text)); //widget. per accedere dalla classe state alla classe legata stateful. Me ne da gli attributi
+    Navigator.of(context)
+        .pop(); //per chiudere il bottomsheet dopo il salvataggio della transazione
   }
 
   @override
@@ -51,10 +54,27 @@ class _NewTransactionState extends State<NewTransaction> {
                   _), //necessario passare nuovo valore altrimenti Dart si arrabbia. Il _ indica che non usero' il valore => convenzione
               //onChanged: (value) => amountInput = value,
             ),
-            FlatButton(
+            Container(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Text('No Date Chosen!'),
+                  FlatButton(
+                    textColor: Theme.of(context).primaryColor,
+                    onPressed: () {},
+                    child: Text('Choose Date',
+                    style: TextStyle(
+                     fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                ],
+              ),
+            ),
+            RaisedButton(
               onPressed: () => submitData(''),
               child: Text('Add Transaction'),
-              textColor: Colors.purple,
+              color: Theme.of(context).primaryColor,
+              textColor: Colors.white,
             ),
           ],
         ),
