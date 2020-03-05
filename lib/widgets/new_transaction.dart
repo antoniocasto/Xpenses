@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
@@ -10,22 +11,38 @@ class NewTransaction extends StatefulWidget {
 }
 
 class _NewTransactionState extends State<NewTransaction> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime _selectedDate;
 
-  void submitData(String val) {
-    final enteredTitle = titleController.text;
-    final enteredAmount = double.parse(amountController.text);
+  void _submitData(String val) {
+    final enteredTitle = _titleController.text;
+    final enteredAmount = double.parse(_amountController.text);
 
     if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
     widget.addTx(
-        titleController.text,
-        double.parse(amountController
+        _titleController.text,
+        double.parse(_amountController
             .text)); //widget. per accedere dalla classe state alla classe legata stateful. Me ne da gli attributi
     Navigator.of(context)
         .pop(); //per chiudere il bottomsheet dopo il salvataggio della transazione
+  }
+
+  void _presentDatePicker() async {
+    DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime.now(),
+    );
+    if (pickedDate == null) {
+      return;
+    }
+    setState(() {
+      _selectedDate = pickedDate;
+    });
   }
 
   @override
@@ -39,18 +56,18 @@ class _NewTransactionState extends State<NewTransaction> {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: 'Title'),
-              controller: titleController,
+              controller: _titleController,
               // onChanged: (value) {
               //   titleInput = value;
               // },
             ),
             TextField(
               decoration: InputDecoration(labelText: 'Amount'),
-              controller: amountController,
+              controller: _amountController,
               keyboardType: TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              onSubmitted: (_) => submitData(
+              onSubmitted: (_) => _submitData(
                   _), //necessario passare nuovo valore altrimenti Dart si arrabbia. Il _ indica che non usero' il valore => convenzione
               //onChanged: (value) => amountInput = value,
             ),
@@ -58,20 +75,26 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 70,
               child: Row(
                 children: <Widget>[
-                  Text('No Date Chosen!'),
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date Chosen!'
+                          : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                    ),
+                  ),
                   FlatButton(
                     textColor: Theme.of(context).primaryColor,
-                    onPressed: () {},
-                    child: Text('Choose Date',
-                    style: TextStyle(
-                     fontWeight: FontWeight.bold
-                    ),),
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Choose Date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
             ),
             RaisedButton(
-              onPressed: () => submitData(''),
+              onPressed: () => _submitData(''),
               child: Text('Add Transaction'),
               color: Theme.of(context).primaryColor,
               textColor: Colors.white,
