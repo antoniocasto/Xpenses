@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_spese/widgets/chart.dart';
 import 'package:app_spese/widgets/transaction_list.dart';
 //import 'package:flutter/services.dart';
@@ -146,7 +148,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text('Show Chart'),
-                  Switch(
+                  Switch.adaptive(
+                    activeColor: Theme.of(context).accentColor,
                     value: _showChart,
                     onChanged: (val) {
                       setState(() {
@@ -156,14 +159,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-            if (!isLanscape) Container(
-                      height: (mediaQuery.size.height -
-                              appBar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          0.3,
-                      child: Chart(_recentTransactions)),
-              if(!isLanscape) txListWidget,
-              if(isLanscape) _showChart
+            if (!isLanscape)
+              Container(
+                  height: (mediaQuery.size.height -
+                          appBar.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      0.3,
+                  child: Chart(_recentTransactions)),
+            if (!isLanscape) txListWidget,
+            if (isLanscape)
+              _showChart
                   ? Container(
                       height: (mediaQuery.size.height -
                               appBar.preferredSize.height -
@@ -175,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Platform.isIOS ? Container() : FloatingActionButton(
         onPressed: () => _startAddNewTransaction(context),
         child: Icon(Icons.add),
       ),
