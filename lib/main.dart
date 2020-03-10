@@ -110,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     print('build() MyHomePageState');
+    final mediaQuery = MediaQuery.of(context);
     final isLanscape = MediaQuery.of(context).orientation ==
         Orientation.landscape; //isLanscape e' un boolean alla fine
 
@@ -126,9 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     final txListWidget = Container(
-      height: (MediaQuery.of(context).size.height -
+      height: (mediaQuery.size.height -
               appBar.preferredSize.height -
-              MediaQuery.of(context).padding.top) *
+              mediaQuery.padding.top) *
           0.7,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );
@@ -156,17 +157,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             if (!isLanscape) Container(
-                      height: (MediaQuery.of(context).size.height -
+                      height: (mediaQuery.size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
+                              mediaQuery.padding.top) *
                           0.3,
                       child: Chart(_recentTransactions)),
               if(!isLanscape) txListWidget,
               if(isLanscape) _showChart
                   ? Container(
-                      height: (MediaQuery.of(context).size.height -
+                      height: (mediaQuery.size.height -
                               appBar.preferredSize.height -
-                              MediaQuery.of(context).padding.top) *
+                              mediaQuery.padding.top) *
                           0.7,
                       child: Chart(_recentTransactions))
                   : txListWidget,
