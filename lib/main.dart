@@ -109,6 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('build() MyHomePageState');
     final isLanscape = MediaQuery.of(context).orientation ==
         Orientation.landscape; //isLanscape e' un boolean alla fine
 
