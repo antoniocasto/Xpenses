@@ -56,7 +56,27 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   final List<Transaction> _userTransactions = [
     // Transaction( //Hardcoded data
     //     id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
@@ -201,7 +221,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     ));
-    
+
     return Platform.isIOS
         ? CupertinoPageScaffold(
             child: pageBody,
